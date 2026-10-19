@@ -96,7 +96,7 @@ export default function Layout({ children, ready }) {
             </span>
           </Link>
 
-          <nav className={menuOpen ? 'nav-links open' : 'nav-links'}>
+          <nav className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Primary">
             {links.map((link) => (
               <NavLink
                 key={link.to}
@@ -114,31 +114,33 @@ export default function Layout({ children, ready }) {
             </a>
           </nav>
 
-          <a
-            className="btn btn-primary nav-cta nav-cta-desktop"
-            href={`${import.meta.env.BASE_URL}Roshan_Khan_Resume.pdf`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            Resume
-          </a>
+          <div className="nav-end">
+            <a
+              className="btn btn-primary nav-cta nav-cta-desktop"
+              href={`${import.meta.env.BASE_URL}Roshan_Khan_Resume.pdf`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Resume
+            </a>
 
-          <button
-            type="button"
-            className={menuOpen ? 'menu-toggle open' : 'menu-toggle'}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+            <button
+              type="button"
+              className={menuOpen ? 'menu-toggle open' : 'menu-toggle'}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
         </div>
       </header>
 
