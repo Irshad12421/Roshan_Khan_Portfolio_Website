@@ -143,7 +143,7 @@ export default function About() {
           <p>Download my resume or reach out directly — happy to talk about your project.</p>
         </div>
         <div className="hero-actions">
-          <a className="btn btn-primary" href="/Roshan_Khan_Resume.pdf" target="_blank" rel="noreferrer">
+          <a className="btn btn-primary" href={`${import.meta.env.BASE_URL}Roshan_Khan_Resume.pdf`} target="_blank" rel="noreferrer">
             Download Resume
           </a>
           <Link className="btn btn-ghost" to="/contact" viewTransition>

@@ -1,9 +1,33 @@
 import { Link } from 'react-router-dom'
 import profileImg from '../assets/profile.jpg'
-import { profile, skillGroups, projects, services, journey } from '../data/resume'
+import { profile, skillGroups, projects, services, journey, achievements } from '../data/resume'
 
 const featured = projects.slice(0, 3)
 const topSkills = [...skillGroups[0].skills, 'REST APIs', 'WordPress', 'Git', 'SFTP']
+
+const heroBlurb =
+  'I build CRMs, SaaS products and e-commerce stores end-to-end — from database design and Laravel backend logic to clean, responsive Blade frontends.'
+
+const heroRoles = ['PHP', 'Laravel', 'MySQL', 'JavaScript', 'REST APIs']
+
+const processSteps = [
+  {
+    step: 'Discover',
+    text: 'Understand the business goals, users and workflows before writing a single line of code.',
+  },
+  {
+    step: 'Design',
+    text: 'Plan the database schema, module structure and interface layout around real requirements.',
+  },
+  {
+    step: 'Develop',
+    text: 'Build backend logic, service layers and responsive frontends with clean, maintainable code.',
+  },
+  {
+    step: 'Deliver',
+    text: 'Test, deploy and hand over — then refine as the business needs keep evolving.',
+  },
+]
 
 const tickerItems = [
   'PHP',
@@ -86,12 +110,16 @@ export default function Home() {
           <span className="pill">
             <span className="pill-dot"></span> Available for work
           </span>
-          <p className="eyebrow">Full-Stack Web Developer</p>
+          <p className="eyebrow hero-eyebrow">Full-Stack Web Developer</p>
           <h1>
             Hi, I’m <span className="grad-text">Roshan Khan</span>
           </h1>
-          <p className="hero-role">{profile.role}</p>
-          <p className="hero-summary">{profile.summary}</p>
+          <div className="hero-roles">
+            {heroRoles.map((role) => (
+              <span key={role}>{role}</span>
+            ))}
+          </div>
+          <p className="hero-summary">{heroBlurb}</p>
           <div className="hero-actions">
             <Link className="btn btn-primary" to="/contact" viewTransition>
               Hire Me
@@ -119,11 +147,20 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <div className="hero-media">
+        <div className="hero-visual">
+          <span className="hero-glow" aria-hidden="true"></span>
+          <span className="hero-ring" aria-hidden="true"></span>
           <div className="photo-frame">
-            <span className="photo-badge">1+ yr experience</span>
             <img src={profileImg} alt={profile.name} width="576" height="1024" loading="eager" />
             <span className="photo-caption">{profile.location}</span>
+          </div>
+          <div className="float-card float-card-a">
+            <strong>1+ yr</strong>
+            <span>Experience</span>
+          </div>
+          <div className="float-card float-card-b">
+            <strong>10</strong>
+            <span>Projects shipped</span>
           </div>
         </div>
       </section>
@@ -179,6 +216,24 @@ export default function Home() {
 
       <section className="section">
         <div className="section-head reveal">
+          <h2>How I Work</h2>
+          <Link className="link" to="/contact" viewTransition>
+            Start a project →
+          </Link>
+        </div>
+        <div className="process-grid">
+          {processSteps.map((item, i) => (
+            <article className="process-card reveal" key={item.step} style={{ '--d': `${i * 0.08}s` }}>
+              <span className="process-step">{`0${i + 1}`}</span>
+              <h3>{item.step}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="section-head reveal">
           <h2>Featured Projects</h2>
           <Link className="link" to="/projects" viewTransition>
             All projects →
@@ -197,6 +252,23 @@ export default function Home() {
                   </span>
                 ))}
               </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="section-head reveal">
+          <h2>Achievements</h2>
+          <Link className="link" to="/about" viewTransition>
+            More highlights →
+          </Link>
+        </div>
+        <div className="highlight-grid">
+          {achievements.map((item, i) => (
+            <article className="highlight-card reveal" key={item} style={{ '--d': `${i * 0.08}s` }}>
+              <span className="highlight-num">{`0${i + 1}`}</span>
+              <p>{item}</p>
             </article>
           ))}
         </div>

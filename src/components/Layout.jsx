@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
 import { profile } from '../data/resume'
 
@@ -16,6 +16,8 @@ export default function Layout({ children, ready }) {
   const location = useLocation()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const progressRef = useRef(null)
+  const glowRef = useRef(null)
 
   useEffect(() => {
     if (!ready) return undefined
@@ -39,14 +41,51 @@ export default function Layout({ children, ready }) {
   }, [location.pathname])
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
+    let raf = 0
+    const onScroll = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 12)
+        const doc = document.documentElement
+        const max = doc.scrollHeight - doc.clientHeight
+        const value = max > 0 ? window.scrollY / max : 0
+        if (progressRef.current) {
+          progressRef.current.style.transform = `scaleX(${value})`
+        }
+      })
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', onScroll)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [])
+
+  useEffect(() => {
+    const el = glowRef.current
+    if (!el) return undefined
+    if (window.matchMedia('(pointer: coarse)').matches) return undefined
+    let raf = 0
+    const move = (event) => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        el.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`
+      })
+    }
+    window.addEventListener('pointermove', move, { passive: true })
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('pointermove', move)
+    }
   }, [])
 
   return (
     <div className="site">
+      <div className="scroll-progress" ref={progressRef} aria-hidden="true"></div>
+      <div className="cursor-glow" ref={glowRef} aria-hidden="true"></div>
       <header className={scrolled ? 'navbar scrolled' : 'navbar'}>
         <div className="container navbar-inner">
           <Link to="/" className="brand" viewTransition>
@@ -70,14 +109,14 @@ export default function Layout({ children, ready }) {
                 {link.label}
               </NavLink>
             ))}
-            <a className="btn btn-primary nav-cta nav-cta-mobile" href="/Roshan_Khan_Resume.pdf" target="_blank" rel="noreferrer">
+            <a className="btn btn-primary nav-cta nav-cta-mobile" href={`${import.meta.env.BASE_URL}Roshan_Khan_Resume.pdf`} target="_blank" rel="noreferrer">
               Download Resume
             </a>
           </nav>
 
           <a
             className="btn btn-primary nav-cta nav-cta-desktop"
-            href="/Roshan_Khan_Resume.pdf"
+            href={`${import.meta.env.BASE_URL}Roshan_Khan_Resume.pdf`}
             target="_blank"
             rel="noreferrer"
           >
@@ -121,6 +160,9 @@ export default function Layout({ children, ready }) {
               Building CRMs, SaaS products and e-commerce stores with PHP &amp; Laravel from Mumbai,
               India.
             </p>
+            <span className="footer-status">
+              <span className="pill-dot"></span> Available for work
+            </span>
             <div className="footer-socials">
               <a className="social-btn" href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -167,7 +209,7 @@ export default function Layout({ children, ready }) {
                 <span className="footer-muted">{profile.location}</span>
               </li>
               <li>
-                <a href="/Roshan_Khan_Resume.pdf" target="_blank" rel="noreferrer">
+                <a href={`${import.meta.env.BASE_URL}Roshan_Khan_Resume.pdf`} target="_blank" rel="noreferrer">
                   Download Resume
                 </a>
               </li>
