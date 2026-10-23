@@ -1529,35 +1529,35 @@ main.container {
   font-weight: 700;
 }
 
+/* Honeypot + errors */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.field-error {
+  color: #f87171;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
 .form-status.pending {
   color: var(--muted);
 }
 .form-status.success {
-  color: #16a34a;
+  color: #22c55e;
 }
 .form-status.error {
-  color: #e5484d;
+  color: #f87171;
 }
 
-.contact-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 16px;
-}
-
-.contact-list li {
-  display: grid;
-  gap: 2px;
-}
-
-.contact-list span {
-  font-size: 12.5px;
-  text-transform: uppercase;
-  letter-spacing: 1.1px;
-  color: var(--muted);
-  font-weight: 800;
+.contact-list li span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
 }
 
 .contact-list a,
